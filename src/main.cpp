@@ -3,6 +3,8 @@
 #include "Led.h"
 #include <wiringPi.h>
 #include "Listener.h"
+#include "Controller.h"
+#include "View.h"
 
 int main()
 {
@@ -10,11 +12,14 @@ int main()
     
     Button Button1(27);
     Led led1(25);
-    Listener Listener(&Button1, &led1);
+    View view(&led1);
+    Controller control(&view);
+    Listener listener(&Button1, &control);
 
     while(1)
     {
-        Listener.checkEvent();
+        listener.checkEvent();
+        view.lightView();
         delay(50);
     }
 
